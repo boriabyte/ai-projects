@@ -1,0 +1,71 @@
+import argparse
+import os
+import spacy
+from contextlib import ExitStack
+import scripts.align_text as align_text
+import scripts.cat_rules as cat_rules
+import scripts.toolbox as toolbox
+from nltk.stem.snowball import SnowballStemmer
+
+
+def main(args):
+	basename = os.path.dirname(os.path.realpath(__file__))
+	print("Loading resources...")
+
+	nlp = spacy.load("ro_core_news_sm")
+	stemmer = SnowballStemmer("romanian")
+
+	ro_spell = toolbox.loadDictionary(basename + "/resources/ro_RO-large.txt")
+
+	out_m2 = open(args.out, "w", encoding="utf-8")
+
+	print("Processing files...")	
+	with ExitStack() as stack:
+		in_files = [stack.enter_context(open(i, encoding="utf-8")) for i in [args.orig]+args.cor]
+
+		for line_id, line in enumerate(zip(*in_files)):
+			orig_sent = line[0].strip()
+			cor_sents = line[1:]
+
+			if not orig_sent: 
+				continue
+
+			out_m2.write("S " + orig_sent + "\n")
+
+			proc_orig = toolbox.applySpacy(orig_sent.split(), nlp)
+
+			for cor_id, cor_sent in enumerate(cor_sents):
+				cor_sent = cor_sent.strip()
+				if orig_sent == cor_sent:
+					out_m2.write("A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||"+str(cor_id)+"\n")
+
+				else:
+					proc_cor = toolbox.applySpacy(cor_sent.strip().split(), nlp)
+					try:
+						auto_edits = align_text.getAutoAlignedEdits(proc_orig, proc_cor, nlp, args)
+						for auto_edit in auto_edits:
+							cat = cat_rules.autoTypeEdit(auto_edit, proc_orig, proc_cor, ro_spell, None, nlp, stemmer)
+							auto_edit[2] = cat
+							out_m2.write(toolbox.formatEdit(auto_edit, cor_id)+"\n")
+					except RecursionError:
+						out_m2.write("A -1 -1|||noop|||-NONE-|||REQUIRED|||-NONE-|||"+str(cor_id)+"\n")
+
+			out_m2.write("\n")
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description="Convert parallel original and corrected text files (1 sentence per line) into M2 format.\nThe default uses Damerau-Levenshtein and merging rules and assumes tokenized text.",
+								formatter_class=argparse.RawTextHelpFormatter,
+								usage="%(prog)s [-h] [options] -orig ORIG -cor COR [COR ...] -out OUT")
+	parser.add_argument("-orig", help="The path to the original text file.", required=True)
+	parser.add_argument("-cor", help="The paths to >= 1 corrected text files.", nargs="+", default=[], required=True)
+	parser.add_argument("-out", help="The output filepath.", required=True)
+	parser.add_argument("-lev", help="Use standard Levenshtein to align sentences.", action="store_true")
+	parser.add_argument("-merge", choices=["rules", "all-split", "all-merge", "all-equal"], default="rules",
+						help="Choose a merging strategy for automatic alignment.\n"
+							"rules: Use a rule-based merging strategy (default)\n"
+							"all-split: Merge nothing; e.g. MSSDI -> M, S, S, D, I\n"
+							"all-merge: Merge adjacent non-matches; e.g. MSSDI -> M, SSDI\n"
+							"all-equal: Merge adjacent same-type non-matches; e.g. MSSDI -> M, SS, D, I")
+	args = parser.parse_args()
+	# Run the program.
+	main(args)
