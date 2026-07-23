@@ -13,4 +13,4 @@ distinct characterstics chosen to differentiate between types of façades. Indus
 examples:
 
 
-![Vernacular façade](facade-classification/src/images/vernacular.png)
+![Vernacular façade](images/vernacular.png)
