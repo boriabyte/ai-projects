@@ -76,3 +76,36 @@ This system manages to beat the [SotA](https://www.mdpi.com/2078-2489/16/3/242) 
 
 ## Examples
 
+<table>
+  <tr>
+    <th>Original</th>
+    <th>After iteration</th>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <img src="images/example1.png" alt="Example 1 original" width="450">
+    </td>
+    <td align="center">
+      <img src="images/example1_iter.png" alt="Example 1 after iteration" width="450">
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <img src="images/example2.png" alt="Example 2 original" width="450">
+    </td>
+    <td align="center">
+      <img src="images/example2_iter.png" alt="Example 2 after iteration" width="450">
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <img src="images/example3.png" alt="Example 3 original" width="450">
+    </td>
+    <td align="center">
+      <img src="images/example3_iter.png" alt="Example 3 after iteration" width="450">
+    </td>
+  </tr>
+</table>
