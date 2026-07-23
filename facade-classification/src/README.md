@@ -12,5 +12,8 @@ The image is turned into grayscale, after which three fundamental feature are ex
 distinct characterstics chosen to differentiate between types of façades. Industrial façades tend to exhibit greater geometric regularity and modular repetition, while vernacular façades tend to show greater contextual variation and locally derived proportions. Below are some 
 examples:
 
-
-![Vernacular façade](images/vernacular.png)
+<p align="center">
+  <img src="images/vernacular.png" alt="Vernacular façade" width="600">
+  <br>
+  <em>Example of a vernacular façade.</em>
+</p>
