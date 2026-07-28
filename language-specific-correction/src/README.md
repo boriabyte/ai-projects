@@ -93,10 +93,10 @@ This system manages to beat the [SotA](https://www.mdpi.com/2078-2489/16/3/242) 
 
   <tr>
     <td align="center">
-      <img src="images/example2.png" alt="Example 2 original" width="450">
+      <img src="images/example2_iter.png" alt="Example 2 after iteration" width="450">
     </td>
     <td align="center">
-      <img src="images/example2_iter.png" alt="Example 2 after iteration" width="450">
+       <img src="images/example2.png" alt="Example 2 original" width="450">
     </td>
   </tr>
 
