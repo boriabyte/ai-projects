@@ -40,7 +40,7 @@ def main():
     # Fit k-means on chosen space
     centers, labels = kmeans(X_cluster, k=args.k, seed=args.seed, iters=300)
 
-    # cluster means in standardized ORIGINAL feature space
+    # For interpretability: cluster means in standardized ORIGINAL feature space
     centers_feat = np.zeros((args.k, len(FEATURE_COLS)), dtype=np.float32)
     for j in range(args.k):
         m = labels == j
