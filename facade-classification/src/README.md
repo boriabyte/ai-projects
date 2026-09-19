@@ -4,7 +4,7 @@ keywords: computer vision, unsupervised learning, k-means clustering
 
 ## Summary
 
-Computer Vision project that places building façades into three categories: **industrial**, **vernacular**, **transitional**, based on handcrafted geometric processing of data obtained from a 400 image dataset, found [here](https://www.kaggle.com/datasets/balraj98/facades-dataset).
+Computer Vision project that places building façades into three categories: **industrial**, **vernacular**, **transitional**, based on handcrafted geometric processing of data obtained from a 506 image dataset, found [here](https://www.kaggle.com/datasets/balraj98/facades-dataset).
 
 ## Mathematics
 
